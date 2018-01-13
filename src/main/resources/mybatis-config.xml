@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--因为，logback监控java.sql不是很好久像这句话<logger nae="java.sql.Connection"
+        level="DEBUG"/>没有任何作用，不会答应sql语句所以再加上<setting name="logPrefix" value
+        ="dao."/>
+        -->
+        <setting name="logPrefix" value="mybatis_sql."/>
+    </settings>
+    <typeAliases>
+        <package name="com.paic.loancloud.sms.model"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mapper/SmsDemoMapper.xml"/>
+        <mapper resource="mapper/ApplyIdMapper.xml"/>
+    </mappers>
+</configuration>

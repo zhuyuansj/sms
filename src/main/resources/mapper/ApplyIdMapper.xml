@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paic.loancloud.sms.mapper.ApplyIdMapper">
+    <resultMap id="BaseResultMap" type="com.paic.loancloud.sms.model.json.sunjian.CustomerTelephoneJson">
+        <result column="tele_num" jdbcType="VARCHAR" property="teleNum" />
+        <result column="tele_type_code" jdbcType="VARCHAR" property="teleTypeCode" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        tele_num, tele_type_code
+    </sql>
+    <select id="queryApplyIdPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sc_act_apply_tele
+        where apply_id = #{applyId,jdbcType=INTEGER}
+    </select>
+
+
+
+    <resultMap id="BaseResultMapId" type="com.paic.loancloud.sms.model.json.sunjian.CustomerQualificationAuditJson">
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+        <result column="identity_num" jdbcType="VARCHAR" property="identityNum" />
+        <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+        <result column="auth_result_code" jdbcType="VARCHAR" property="authResultCode" />
+        <result column="reason" jdbcType="VARCHAR" property="reason" />
+        <result column="phase_type" jdbcType="VARCHAR" property="phaseType" />
+        <result column="phase_code" jdbcType="VARCHAR" property="phaseCode" />
+        <result column="phase_status" jdbcType="VARCHAR" property="phaseStatus" />
+        <result column="transfer_state" jdbcType="VARCHAR" property="transferState" />
+    </resultMap>
+
+    <sql id="BaseResultMapsqlId">
+        o.`customer_name` AS customerName,o.`identity_num` AS identityNum,o.`city_code` AS cityCode,o.`auth_result_code` AS authResultCode,reason,o.`phase_type`
+        AS phaseType,o.`phase_code` AS phaseCode,o.`phase_status` AS phaseStatus,a.`transfer_state` AS transferState
+    </sql>
+
+    <select id="queryApplyIdCustomer"  resultMap="BaseResultMapId">
+        select
+        <include refid="BaseResultMapsqlId" />
+        FROM sc_transfer_info a LEFT JOIN sc_apply_order o ON a.apply_id=o.apply_id WHERE o.`apply_id`=#{applyId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

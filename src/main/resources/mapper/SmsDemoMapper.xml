@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.paic.loancloud.sms.mapper.SmsDemoMapper">
+    <!-- column是数据库字段，property是实体类字段
+         private int id;
+    private String name;
+    private Timestamp updateTime;
+    private Timestamp update_time;
+    private String password;
+        -->
+    <resultMap id="smsDemoDao" type="com.paic.loancloud.sms.model.entity.SmsDemoDao">
+        <result column="id" property="id" javaType="int" jdbcType="INTEGER"/>
+        <result column="name" property="name" javaType="string" jdbcType="CHAR"/>
+        <result column="updateTime" property="updateTime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="update_time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result column="password" property="password" javaType="string" jdbcType="CHAR"/>
+    </resultMap>
+    <!--  sql id 都是数据库字段
+    <select id="queryListOfSmsByDemo" resultType="com.paic.loancloud.sms.model.entity.SmsDemoDao">
+
+    -->
+    <sql id="smsDemoId">
+        id,name ,updateTime,update_time,password
+    </sql>
+    <!-- 查询不需要用as,因为上面的resultmap已经用了，这里查询直接用数据库的字段-->
+    <select id="queryListOfSmsByDemo" resultMap="smsDemoDao">
+     SELECT name,password FROM demo
+    </select>
+    <select id="queryListSmsDemoDao" resultMap="smsDemoDao">
+      SELECT name,password FROM demo WHERE name = #{name,jdbcType=VARCHAR}
+    </select>
+    <!--  这里的if test都是实体类里面的属性，if内的内容是表的字段
+           values后面的trim这里额if test是实体类属性，下面的#{实体类属性}
+    -->
+    <insert id="addOrUpdateSms" parameterType="com.paic.loancloud.sms.model.entity.SmsDemoDao">
+        INSERT INTO demo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="updateTime != null">
+                updateTime,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="password != null">
+                password
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+</mapper>
